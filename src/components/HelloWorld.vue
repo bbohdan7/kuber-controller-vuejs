@@ -83,11 +83,16 @@
         >
       </li>
     </ul>
-    <sui-button color="red" icon="heart" @click="clickMeAction('hello')">Semantic Button</sui-button>
+    <sui-button color="red" icon="heart" @click="clickMeAction('hello')"
+      >Semantic Button</sui-button
+    >
 
     <sui-input v-model="someValue" v-on:input="onChangeSomeValue" />
 
     <p v-text="someValue"></p>
+
+    <sui-button color="blue" v-if="this.sortFlag" @click="sort">Sort</sui-button>
+    <sui-button color="red" v-else v-on:click=sort>Unsort</sui-button>
 
     <sui-table inverted>
       <sui-table-header>
@@ -109,44 +114,66 @@
         </sui-table-row>
       </sui-table-body>
     </sui-table>
-
   </div>
 </template>
 
 <script>
-
-import EmployeeService from '../service/employee-service'
+import EmployeeService from "../service/employee-service";
 
 export default {
   name: "HelloWorld",
   props: {
     msg: String,
   },
-  data(){
+  data() {
     return {
       someValue: "",
       employees: [],
-    }
+      sortFlag: false,
+    };
   },
   methods: {
-    fetchData(){
-      EmployeeService.all().then(response => {
-        this.employees = response.data.data
-      }).then(() => console.log(JSON.stringify(this.employees))).catch(e => console.log(e))
+    fetchData() {
+      EmployeeService.all()
+        .then((response) => {
+          this.employees = response.data.data;
+        })
+        .then(() => console.log(JSON.stringify(this.employees)))
+        .catch((e) => console.log(e));
     },
-    clickMeAction(message){
-      window.alert(`Message: ${message}`)
+    
+    clickMeAction(message) {
+      window.alert(`Message: ${message}`);
     },
-    onChangeSomeValue(){
-      console.log(`Some value is ${this.someValue}`)
+    
+    onChangeSomeValue() {
+      console.log(`Some value is ${this.someValue}`);
     },
 
+    sort(){
+      if(this.sortFlag){
+        this.employees = this.employees.sort((a, b) => a.id - b.id)
+      } else {
+        this.employees = this.employees.sort((a, b) => b.id - a.id)
+      }
+
+      this.sortFlag = !this.sortFlag
+      
+    }
   },
   created() {
-    this.fetchData()
+    this.fetchData();
     console.log("Component has been mounted!");
   },
-  
+
+  computed: {
+    sorted: function(){
+      return {
+        "background-color": "orange"
+      }
+    }
+  }
+
 };
 </script>
 
