@@ -1,165 +1,221 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br />
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener"
-        >vue-cli documentation</a
-      >.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel"
-          target="_blank"
-          rel="noopener"
-          >babel</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint"
-          target="_blank"
-          rel="noopener"
-          >eslint</a
-        >
-      </li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li>
-        <a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a>
-      </li>
-      <li>
-        <a href="https://forum.vuejs.org" target="_blank" rel="noopener"
-          >Forum</a
-        >
-      </li>
-      <li>
-        <a href="https://chat.vuejs.org" target="_blank" rel="noopener"
-          >Community Chat</a
-        >
-      </li>
-      <li>
-        <a href="https://twitter.com/vuejs" target="_blank" rel="noopener"
-          >Twitter</a
-        >
-      </li>
-      <li>
-        <a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a>
-      </li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li>
-        <a href="https://router.vuejs.org" target="_blank" rel="noopener"
-          >vue-router</a
-        >
-      </li>
-      <li>
-        <a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-devtools#vue-devtools"
-          target="_blank"
-          rel="noopener"
-          >vue-devtools</a
-        >
-      </li>
-      <li>
-        <a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener"
-          >vue-loader</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-          rel="noopener"
-          >awesome-vue</a
-        >
-      </li>
-    </ul>
+
     <sui-button color="red" icon="heart" @click="clickMeAction('hello')"
       >Semantic Button</sui-button
     >
 
-    <sui-input v-model="someValue" v-on:input="onChangeSomeValue" />
+    <sui-input v-model="message" />
 
-    <p v-text="someValue"></p>
+    <p>{{ this.message }}</p>
 
-    <sui-button color="blue" v-if="this.sortFlag" @click="sort">Sort</sui-button>
-    <sui-button color="red" v-else v-on:click=sort>Unsort</sui-button>
-
-    <sui-table inverted>
+    <sui-table inverted selectable>
       <sui-table-header>
         <sui-table-row>
-          <sui-table-cell>ID</sui-table-cell>
-          <sui-table-cell>Name</sui-table-cell>
-          <sui-table-cell>Salary</sui-table-cell>
-          <sui-table-cell>Age</sui-table-cell>
+          <sui-table-cell>
+            <sui-input v-model="idSearch" v-on:input="onSearchId" />
+            <i class="caret up icon" v-if="!sortIdFlag" @click="sortById"></i>
+            <i class="caret down icon" v-else @click="sortById"></i>
+            ID
+          </sui-table-cell>
+          <sui-table-cell>
+            <i
+              class="caret up icon"
+              v-if="!sortNameFlag"
+              @click="sortByName"
+            ></i>
+            <i class="caret down icon" v-else @click="sortByName"></i>
+            Name
+          </sui-table-cell>
+          <sui-table-cell>
+            <i
+              class="caret up icon"
+              v-if="!sortSalaryFlag"
+              @click="sortBySalary"
+            ></i>
+            <i class="caret down icon" v-else @click="sortBySalary"></i>
+            Salary
+          </sui-table-cell>
+          <sui-table-cell>
+            <i class="caret up icon" v-if="!sortAgeFlag" @click="sortByAge"></i>
+            <i class="caret down icon" v-else @click="sortByAge"></i>
+            Age
+          </sui-table-cell>
           <sui-table-cell>Image</sui-table-cell>
         </sui-table-row>
       </sui-table-header>
       <sui-table-body>
-        <sui-table-row v-for="employee in this.employees" :key="employee.id">
+        <sui-table-row
+          v-for="employee in this.employees"
+          :key="employee.id"
+          @click="toggleEmployeeView(employee)"
+        >
           <sui-table-cell v-text="employee.id"></sui-table-cell>
-          <sui-table-cell v-text="employee.employee_name"></sui-table-cell>
-          <sui-table-cell v-text="employee.employee_salary"></sui-table-cell>
-          <sui-table-cell v-text="employee.employee_age"></sui-table-cell>
-          <sui-table-cell v-text="employee.profile_image"></sui-table-cell>
+          <sui-table-cell v-text="employee.employeeName"></sui-table-cell>
+          <sui-table-cell v-text="employee.employeeSalary"></sui-table-cell>
+          <sui-table-cell v-text="employee.employeeAge"></sui-table-cell>
+          <sui-table-cell v-text="employee.profileImage"></sui-table-cell>
         </sui-table-row>
       </sui-table-body>
     </sui-table>
+
+    <sui-modal v-model="openEmployeeModal">
+      <sui-modal-header
+        >Employee {{ this.currentEmployee.id }}</sui-modal-header
+      >
+      <sui-modal-content>
+        <sui-modal-description>
+          <h1 style="text-align: center">{{ this.currentEmployee.id }}</h1>
+          <ul>
+            <li>
+              Name: <u>{{ this.currentEmployee.employeeName }}</u>
+            </li>
+            <li>
+              Salary: <u>{{ this.currentEmployee.employeeSalary }}</u>
+            </li>
+            <li>
+              Age: <u>{{ this.currentEmployee.employeeAge }}</u>
+            </li>
+            <li>
+              Profile image:
+              <u>{{ this.currentEmployee.employee_profileImage }}</u>
+            </li>
+          </ul>
+        </sui-modal-description>
+      </sui-modal-content>
+      <sui-modal-actions>
+        <sui-button negative @click="toggleEmployeeView"> Close </sui-button>
+      </sui-modal-actions>
+    </sui-modal>
+
+    <Header />
   </div>
 </template>
 
 <script>
 import EmployeeService from "../service/employee-service";
+import Header from "./Header";
 
 export default {
   name: "HelloWorld",
   props: {
     msg: String,
   },
+  components: {
+    Header,
+  },
   data() {
     return {
-      someValue: "",
+      alphabet: [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+      ],
       employees: [],
-      sortFlag: false,
+      sortIdFlag: false,
+      sortNameFlag: false,
+      sortSalaryFlag: false,
+      sortAgeFlag: false,
+      currentEmployee: {},
+      message: "",
+      openEmployeeModal: false,
+      idSearch: null,
     };
   },
   methods: {
     fetchData() {
       EmployeeService.all()
         .then((response) => {
-          this.employees = response.data.data;
+          this.employees = response.data;
         })
         .then(() => console.log(JSON.stringify(this.employees)))
         .catch((e) => console.log(e));
     },
-    
+
     clickMeAction(message) {
       window.alert(`Message: ${message}`);
     },
-    
-    onChangeSomeValue() {
-      console.log(`Some value is ${this.someValue}`);
+
+    toggleEmployeeView(employee) {
+      this.currentEmployee = employee;
+      this.openEmployeeModal = !this.openEmployeeModal;
     },
 
-    sort(){
-      if(this.sortFlag){
-        this.employees = this.employees.sort((a, b) => a.id - b.id)
-      } else {
-        this.employees = this.employees.sort((a, b) => b.id - a.id)
-      }
+    onSearchId() {
+      this.employees = this.employees.filter((emp) => emp.id == this.idSearch);
 
-      this.sortFlag = !this.sortFlag
-      
-    }
+      if (this.idSearch == "") {
+        this.fetchData();
+      }
+    },
+
+    sortById() {
+      if (this.sortIdFlag) {
+        this.employees = this.employees.sort((a, b) => a.id - b.id);
+      } else {
+        this.employees = this.employees.sort((a, b) => b.id - a.id);
+      }
+      this.sortIdFlag = !this.sortIdFlag;
+    },
+
+    sortByName() {
+      if (this.sortNameFlag) {
+        this.employees.sort(
+          (a, b) =>
+            this.alphabet.indexOf(a.employeeName.charAt(0).toLowerCase()) -
+            this.alphabet.indexOf(b.employeeName.charAt(0).toLowerCase())
+        );
+      } else {
+        this.employees.sort(
+          (a, b) =>
+            this.alphabet.indexOf(b.employeeName.charAt(0).toLowerCase()) -
+            this.alphabet.indexOf(a.employeeName.charAt(0).toLowerCase())
+        );
+      }
+      this.sortNameFlag = !this.sortNameFlag;
+    },
+
+    sortBySalary() {
+      if (this.sortSalaryFlag) {
+        this.employees.sort((a, b) => a.employeeSalary - b.employeeSalary);
+      } else {
+        this.employees.sort((a, b) => b.employeeSalary - a.employeeSalary);
+      }
+      this.sortSalaryFlag = !this.sortSalaryFlag;
+    },
+
+    sortByAge() {
+      if (this.sortAgeFlag) {
+        this.employees.sort((a, b) => a.employeeAge - b.employeeAge);
+      } else {
+        this.employees.sort((a, b) => b.employeeAge - a.employeeAge);
+      }
+      this.sortAgeFlag = !this.sortAgeFlag;
+    },
   },
   created() {
     this.fetchData();
@@ -167,13 +223,12 @@ export default {
   },
 
   computed: {
-    sorted: function(){
+    sorted: function () {
       return {
-        "background-color": "orange"
-      }
-    }
-  }
-
+        "background-color": "orange",
+      };
+    },
+  },
 };
 </script>
 
