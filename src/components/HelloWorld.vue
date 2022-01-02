@@ -2,11 +2,7 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
 
-    <sui-button color="red" icon="heart" @click="clickMeAction('hello')"
-      >Semantic Button</sui-button
-    >
-
-    <sui-input v-model="message" />
+    <sui-input placeholder="Input something..." v-model="message" />
 
     <p>{{ this.message }}</p>
 
@@ -14,10 +10,10 @@
       <sui-table-header>
         <sui-table-row>
           <sui-table-cell>
-            <sui-input v-model="idSearch" v-on:input="onSearchId" />
             <i class="caret up icon" v-if="!sortIdFlag" @click="sortById"></i>
             <i class="caret down icon" v-else @click="sortById"></i>
-            ID
+            ID <br/>
+            <sui-input placeholder="Search Id..." v-model="idSearch" v-on:input="onSearchId" />
           </sui-table-cell>
           <sui-table-cell>
             <i
@@ -26,7 +22,12 @@
               @click="sortByName"
             ></i>
             <i class="caret down icon" v-else @click="sortByName"></i>
-            Name
+            Name <br/>
+            <sui-input
+              placeholder="Search Name..."
+              v-model="nameSearch"
+              @input="onSearchName"
+            />
           </sui-table-cell>
           <sui-table-cell>
             <i
@@ -35,12 +36,14 @@
               @click="sortBySalary"
             ></i>
             <i class="caret down icon" v-else @click="sortBySalary"></i>
-            Salary
+            Salary <br/>
+            <sui-input placeholder="Search salary..." v-model="salarySearch" @input="onSearchSalary" />
           </sui-table-cell>
           <sui-table-cell>
             <i class="caret up icon" v-if="!sortAgeFlag" @click="sortByAge"></i>
             <i class="caret down icon" v-else @click="sortByAge"></i>
-            Age
+            Age <br/>
+            <sui-input placeholder="Search age..." v-model="ageSearch" @input="onAgeSearch" />
           </sui-table-cell>
           <sui-table-cell>Image</sui-table-cell>
         </sui-table-row>
@@ -49,7 +52,7 @@
         <sui-table-row
           v-for="employee in this.employees"
           :key="employee.id"
-          @click="toggleEmployeeView(employee)"
+          @click="toggleEmployeeModal(employee)"
         >
           <sui-table-cell v-text="employee.id"></sui-table-cell>
           <sui-table-cell v-text="employee.employeeName"></sui-table-cell>
@@ -85,7 +88,7 @@
         </sui-modal-description>
       </sui-modal-content>
       <sui-modal-actions>
-        <sui-button negative @click="toggleEmployeeView"> Close </sui-button>
+        <sui-button negative @click="toggleEmployeeModal"> Close </sui-button>
       </sui-modal-actions>
     </sui-modal>
 
@@ -144,6 +147,9 @@ export default {
       message: "",
       openEmployeeModal: false,
       idSearch: null,
+      nameSearch: null,
+      salarySearch: null,
+      ageSearch: null,
     };
   },
   methods: {
@@ -160,17 +166,35 @@ export default {
       window.alert(`Message: ${message}`);
     },
 
-    toggleEmployeeView(employee) {
+    toggleEmployeeModal(employee) {
       this.currentEmployee = employee;
       this.openEmployeeModal = !this.openEmployeeModal;
     },
 
     onSearchId() {
-      this.employees = this.employees.filter((emp) => emp.id == this.idSearch);
+      this.employees = this.employees.filter((emp) => emp.id.toString().includes(this.idSearch));
 
       if (this.idSearch == "") {
         this.fetchData();
       }
+    },
+
+    onSearchName() {
+      this.employees = this.employees.filter(emp => emp.employeeName.toLowerCase().includes(this.nameSearch.toLowerCase()))
+
+      if(this.nameSearch == "") this.fetchData()
+    },
+
+    onSearchSalary() {
+        this.employees = this.employees.filter(emp => emp.employeeSalary.toString().includes(this.salarySearch))
+
+        if (this.salarySearch == "") this.fetchData()
+    },
+
+    onAgeSearch() {
+      this.employees = this.employees.filter(emp => emp.employeeAge.toString().includes(this.ageSearch))
+
+      if (this.ageSearch == "") this.fetchData()
     },
 
     sortById() {
