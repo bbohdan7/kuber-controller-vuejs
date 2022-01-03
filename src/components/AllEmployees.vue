@@ -12,8 +12,12 @@
           <sui-table-cell>
             <i class="caret up icon" v-if="!sortIdFlag" @click="sortById"></i>
             <i class="caret down icon" v-else @click="sortById"></i>
-            ID <br/>
-            <sui-input placeholder="Search Id..." v-model="idSearch" v-on:input="onSearchId" />
+            ID <br />
+            <sui-input
+              placeholder="Search Id..."
+              v-model="idSearch"
+              v-on:input="onSearchId"
+            />
           </sui-table-cell>
           <sui-table-cell>
             <i
@@ -22,7 +26,7 @@
               @click="sortByName"
             ></i>
             <i class="caret down icon" v-else @click="sortByName"></i>
-            Name <br/>
+            Name <br />
             <sui-input
               placeholder="Search Name..."
               v-model="nameSearch"
@@ -36,14 +40,22 @@
               @click="sortBySalary"
             ></i>
             <i class="caret down icon" v-else @click="sortBySalary"></i>
-            Salary <br/>
-            <sui-input placeholder="Search salary..." v-model="salarySearch" @input="onSearchSalary" />
+            Salary <br />
+            <sui-input
+              placeholder="Search salary..."
+              v-model="salarySearch"
+              @input="onSearchSalary"
+            />
           </sui-table-cell>
           <sui-table-cell>
             <i class="caret up icon" v-if="!sortAgeFlag" @click="sortByAge"></i>
             <i class="caret down icon" v-else @click="sortByAge"></i>
-            Age <br/>
-            <sui-input placeholder="Search age..." v-model="ageSearch" @input="onAgeSearch" />
+            Age <br />
+            <sui-input
+              placeholder="Search age..."
+              v-model="ageSearch"
+              @input="onAgeSearch"
+            />
           </sui-table-cell>
           <sui-table-cell>Image</sui-table-cell>
         </sui-table-row>
@@ -51,14 +63,30 @@
       <sui-table-body>
         <sui-table-row
           v-for="employee in this.employees"
-          :key="employee.id"
-          @click="toggleEmployeeModal(employee)"
+          v-bind:key="employee.id"
         >
-          <sui-table-cell v-text="employee.id"></sui-table-cell>
+          <sui-table-cell
+            v-text="employee.id"
+            @click="toggleEmployeeModal(employee)"
+          ></sui-table-cell>
           <sui-table-cell v-text="employee.employeeName"></sui-table-cell>
           <sui-table-cell v-text="employee.employeeSalary"></sui-table-cell>
           <sui-table-cell v-text="employee.employeeAge"></sui-table-cell>
-          <sui-table-cell v-text="employee.profileImage"></sui-table-cell>
+          <sui-table-cell>
+            <sui-form-field>
+              <router-link
+                v-bind:to="{ name: 'show', params: { id: employee.id } }" class="ui button blue">
+                <i class="ui eye icon"></i>
+              </router-link>
+              <router-link
+                v-bind:to="{ name: 'update', params: { id: employee.id } }" class="ui button teal">
+                <i class="ui edit icon"></i>
+              </router-link>
+              <sui-button color="red">
+                <i class="ui trash icon"></i>
+              </sui-button>
+            </sui-form-field>
+          </sui-table-cell>
         </sui-table-row>
       </sui-table-body>
     </sui-table>
@@ -166,7 +194,9 @@ export default {
     },
 
     onSearchId() {
-      this.employees = this.employees.filter((emp) => emp.id.toString().includes(this.idSearch));
+      this.employees = this.employees.filter((emp) =>
+        emp.id.toString().includes(this.idSearch)
+      );
 
       if (this.idSearch == "") {
         this.fetchData();
@@ -174,21 +204,27 @@ export default {
     },
 
     onSearchName() {
-      this.employees = this.employees.filter(emp => emp.employeeName.toLowerCase().includes(this.nameSearch.toLowerCase()))
+      this.employees = this.employees.filter((emp) =>
+        emp.employeeName.toLowerCase().includes(this.nameSearch.toLowerCase())
+      );
 
-      if(this.nameSearch == "") this.fetchData()
+      if (this.nameSearch == "") this.fetchData();
     },
 
     onSearchSalary() {
-        this.employees = this.employees.filter(emp => emp.employeeSalary.toString().includes(this.salarySearch))
+      this.employees = this.employees.filter((emp) =>
+        emp.employeeSalary.toString().includes(this.salarySearch)
+      );
 
-        if (this.salarySearch == "") this.fetchData()
+      if (this.salarySearch == "") this.fetchData();
     },
 
     onAgeSearch() {
-      this.employees = this.employees.filter(emp => emp.employeeAge.toString().includes(this.ageSearch))
+      this.employees = this.employees.filter((emp) =>
+        emp.employeeAge.toString().includes(this.ageSearch)
+      );
 
-      if (this.ageSearch == "") this.fetchData()
+      if (this.ageSearch == "") this.fetchData();
     },
 
     sortById() {

@@ -1,5 +1,6 @@
 import AllEmployees from './components/AllEmployees.vue'
 import CreateEmployee from './components/CreateEmployee.vue'
+import ShowEmployee from './components/ShowEmployee.vue'
 import UpdateEmployee from './components/UpdateEmployee.vue'
 
 export const routes = [
@@ -12,6 +13,11 @@ export const routes = [
         name: "create",
         path: "/create",
         component: CreateEmployee
+    },
+    {
+        name: "show",
+        path: "/show/:id",
+        component: ShowEmployee,
     },
     {
         name: "update",
