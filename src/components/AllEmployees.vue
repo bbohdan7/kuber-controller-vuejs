@@ -57,7 +57,7 @@
               @input="onAgeSearch"
             />
           </sui-table-cell>
-          <sui-table-cell>Image</sui-table-cell>
+          <sui-table-cell>Actions</sui-table-cell>
         </sui-table-row>
       </sui-table-header>
       <sui-table-body>
