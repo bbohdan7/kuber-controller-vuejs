@@ -9,6 +9,7 @@ class EmployeeService {
     find(id){
         return http.get(`/employees/${id}`)
     }
+
 }
 
 export default new EmployeeService()

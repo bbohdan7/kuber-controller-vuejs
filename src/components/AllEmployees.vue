@@ -91,22 +91,16 @@
         <sui-button negative @click="toggleEmployeeModal"> Close </sui-button>
       </sui-modal-actions>
     </sui-modal>
-
-    <Header />
   </div>
 </template>
 
 <script>
 import EmployeeService from "../service/employee-service";
-import Header from "./Header";
 
 export default {
-  name: "HelloWorld",
+  name: "AllEmployee",
   props: {
     msg: String,
-  },
-  components: {
-    Header,
   },
   data() {
     return {

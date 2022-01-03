@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h1>Header component</h1>
+    <h1>Create new Employee</h1>
   </div>
 </template>
 <script>
 export default {
-  name: "Header",
+  name: "CreateEmployee",
 };
 </script>

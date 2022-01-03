@@ -1,18 +1,21 @@
 <template>
   <div id="app">
+    <sui-menu :widths="3">
+      <sui-menu-item>
+        <router-link to="/">Home</router-link>
+      </sui-menu-item>
+      <sui-menu-item>
+        <router-link to="/create">Create</router-link>
+      </sui-menu-item>
+    </sui-menu>
     <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-
 export default {
   name: "App",
-  components: {
-    HelloWorld,
-  },
 };
 </script>
 
