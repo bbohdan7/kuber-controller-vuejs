@@ -82,7 +82,7 @@
                 v-bind:to="{ name: 'update', params: { id: employee.id } }" class="ui button teal">
                 <i class="ui edit icon"></i>
               </router-link>
-              <sui-button color="red">
+              <sui-button color="red" v-on:click.native="toggleDeleteModal(employee)">
                 <i class="ui trash icon"></i>
               </sui-button>
             </sui-form-field>
@@ -91,6 +91,7 @@
       </sui-table-body>
     </sui-table>
 
+    <!-- Viewing selected employee -->
     <sui-modal v-model="openEmployeeModal">
       <sui-modal-header
         >Employee {{ this.currentEmployee.id }}</sui-modal-header
@@ -119,6 +120,27 @@
         <sui-button negative @click="toggleEmployeeModal"> Close </sui-button>
       </sui-modal-actions>
     </sui-modal>
+    <!-- Delete current employee -->
+    <sui-modal v-model="openDeleteModal">
+      <sui-modal-header>Do you want to delete this employee?</sui-modal-header>
+      <sui-modal-content>
+        <sui-modal-description>
+          <sui-header>Employee {{ currentEmployee.employeeName }} will be deleted?</sui-header>
+          <p>
+            This action cannot be undone so be sure you'd like to perform this action.
+          </p>
+        </sui-modal-description>
+      </sui-modal-content>
+      <sui-modal-actions>
+        <sui-button positive @click.native="deleteCurrentEmployee">
+            Yes, I'm sure!
+        </sui-button>
+        <sui-button negative @click.native="toggleDeleteModal">
+            No
+        </sui-button>
+      </sui-modal-actions>
+    </sui-modal>    
+
   </div>
 </template>
 
@@ -168,6 +190,7 @@ export default {
       currentEmployee: {},
       message: "",
       openEmployeeModal: false,
+      openDeleteModal: false,
       idSearch: null,
       nameSearch: null,
       salarySearch: null,
@@ -184,6 +207,15 @@ export default {
         .catch((e) => console.log(e));
     },
 
+    deleteCurrentEmployee(){
+      EmployeeService.delete(this.currentEmployee.id).then(() => {
+        window.alert(`Employee ${this.currentEmployee.employeeName} has been successfully deleted!`)
+        this.currentEmployee = {}
+        this.openDeleteModal = false
+        this.fetchData()
+      })
+    },
+
     clickMeAction(message) {
       window.alert(`Message: ${message}`);
     },
@@ -191,6 +223,11 @@ export default {
     toggleEmployeeModal(employee) {
       this.currentEmployee = employee;
       this.openEmployeeModal = !this.openEmployeeModal;
+    },
+
+    toggleDeleteModal(employee){
+      this.currentEmployee = employee
+      this.openDeleteModal = !this.openDeleteModal
     },
 
     onSearchId() {
