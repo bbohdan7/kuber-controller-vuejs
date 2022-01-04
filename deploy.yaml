@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuber-vuejs
+  namespace: bogdan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kuber-vuejs
+  template:
+    metadata:
+      labels:
+        app: kuber-vuejs
+    spec:
+      containers:
+      - name: kuber-vuejs
+        image: 192.168.0.134/kuber-vuejs
+        ports:
+        - containerPort: 8080
