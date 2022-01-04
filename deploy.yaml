@@ -5,6 +5,9 @@ metadata:
   namespace: bogdan
 spec:
   replicas: 1
+  labels:
+    app: kuber-vuejs
+spec:
   selector:
     matchLabels:
       app: kuber-vuejs
@@ -14,7 +17,8 @@ spec:
         app: kuber-vuejs
     spec:
       containers:
-      - name: kuber-vuejs
+      - name: vue
         image: 192.168.0.134/kuber-vuejs
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
