@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuber-vuejs
+  labels:
+    app: kuber-vuejs
+spec:
+  selector:
+    matchLabels:
+      app: kuber-vuejs
+  template:
+    metadata:
+      labels:
+        app: kuber-vuejs
+    spec:
+      containers:
+      - name: vue
+        image: 192.168.0.134/kuber-vuejs
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        command: ["/bin/sh", "-c"]
+        args: [" while : ; do sleep 1 ; echo Hello ; done ; "]
