@@ -75,14 +75,21 @@
           <sui-table-cell>
             <sui-form-field>
               <router-link
-                v-bind:to="{ name: 'show', params: { id: employee.id } }" class="ui button blue">
+                v-bind:to="{ name: 'show', params: { id: employee.id } }"
+                class="ui button blue"
+              >
                 <i class="ui eye icon"></i>
               </router-link>
               <router-link
-                v-bind:to="{ name: 'update', params: { id: employee.id } }" class="ui button teal">
+                v-bind:to="{ name: 'update', params: { id: employee.id } }"
+                class="ui button teal"
+              >
                 <i class="ui edit icon"></i>
               </router-link>
-              <sui-button color="red" v-on:click.native="toggleDeleteModal(employee)">
+              <sui-button
+                color="red"
+                v-on:click.native="toggleDeleteModal(employee)"
+              >
                 <i class="ui trash icon"></i>
               </sui-button>
             </sui-form-field>
@@ -125,22 +132,23 @@
       <sui-modal-header>Do you want to delete this employee?</sui-modal-header>
       <sui-modal-content>
         <sui-modal-description>
-          <sui-header>Employee {{ currentEmployee.employeeName }} will be deleted?</sui-header>
+          <sui-header
+            >Employee {{ currentEmployee.employeeName }} will be
+            deleted?</sui-header
+          >
           <p>
-            This action cannot be undone so be sure you'd like to perform this action.
+            This action cannot be undone so be sure you'd like to perform this
+            action.
           </p>
         </sui-modal-description>
       </sui-modal-content>
       <sui-modal-actions>
         <sui-button positive @click.native="deleteCurrentEmployee">
-            Yes, I'm sure!
+          Yes, I'm sure!
         </sui-button>
-        <sui-button negative @click.native="toggleDeleteModal">
-            No
-        </sui-button>
+        <sui-button negative @click.native="toggleDeleteModal"> No </sui-button>
       </sui-modal-actions>
-    </sui-modal>    
-
+    </sui-modal>
   </div>
 </template>
 
@@ -207,13 +215,15 @@ export default {
         .catch((e) => console.log(e));
     },
 
-    deleteCurrentEmployee(){
+    deleteCurrentEmployee() {
       EmployeeService.delete(this.currentEmployee.id).then(() => {
-        window.alert(`Employee ${this.currentEmployee.employeeName} has been successfully deleted!`)
-        this.currentEmployee = {}
-        this.openDeleteModal = false
-        this.fetchData()
-      })
+        window.alert(
+          `Employee ${this.currentEmployee.employeeName} has been successfully deleted!`
+        );
+        this.currentEmployee = {};
+        this.openDeleteModal = false;
+        this.fetchData();
+      });
     },
 
     clickMeAction(message) {
@@ -225,9 +235,9 @@ export default {
       this.openEmployeeModal = !this.openEmployeeModal;
     },
 
-    toggleDeleteModal(employee){
-      this.currentEmployee = employee
-      this.openDeleteModal = !this.openDeleteModal
+    toggleDeleteModal(employee) {
+      this.currentEmployee = employee;
+      this.openDeleteModal = !this.openDeleteModal;
     },
 
     onSearchId() {

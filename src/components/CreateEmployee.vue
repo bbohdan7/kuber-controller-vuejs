@@ -4,7 +4,9 @@
 
     <sui-grid :columns="3">
       <sui-grid-row>
-        <sui-grid-column></sui-grid-column>
+        <sui-grid-column>
+          <sui-button positive icon="arrow left" @click="() => this.$router.go(-1)">Back</sui-button>
+        </sui-grid-column>
         <sui-grid-column>
           <sui-form method="post" v-on:submit.prevent="createEmployee">
             <sui-form-field>

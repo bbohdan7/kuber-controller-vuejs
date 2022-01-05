@@ -1,7 +1,9 @@
 <template>
   <sui-grid :columns="3">
     <sui-grid-row>
-      <sui-grid-column></sui-grid-column>
+      <sui-grid-column>
+        <sui-button positive @click="() => this.$router.go(-1)" icon="arrow left">Back</sui-button>
+      </sui-grid-column>
       <sui-grid-column>
         <h1 style="text-align: center">
           Update Employee {{ employee.id }}
