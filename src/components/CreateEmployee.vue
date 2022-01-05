@@ -11,13 +11,13 @@
           <sui-form method="post" v-on:submit.prevent="createEmployee">
             <sui-form-field>
               <label>Employee name: </label>
-              <sui-input type="text" v-model="employee.employeeName" />
+              <sui-input type="text" v-model="employee.employeeName" required />
 
               <label>Employee salary: </label>
-              <sui-input type="number" v-model="employee.employeeSalary" />
+              <sui-input type="number" v-model="employee.employeeSalary" required />
 
               <label>Employee age: </label>
-              <sui-input type="number" v-model="employee.employeeAge" />
+              <sui-input type="number" v-model="employee.employeeAge" required />
 
               <sui-button color="olive" type="submit" icon="building"
                 >Create</sui-button

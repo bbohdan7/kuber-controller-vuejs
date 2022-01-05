@@ -143,10 +143,10 @@
         </sui-modal-description>
       </sui-modal-content>
       <sui-modal-actions>
+        <sui-button negative @click.native="toggleDeleteModal"> No </sui-button>
         <sui-button positive @click.native="deleteCurrentEmployee">
           Yes, I'm sure!
         </sui-button>
-        <sui-button negative @click.native="toggleDeleteModal"> No </sui-button>
       </sui-modal-actions>
     </sui-modal>
   </div>
