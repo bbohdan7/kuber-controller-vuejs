@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <sui-menu :widths="3">
+    <sui-menu pointing top fixed>
+      <sui-menu-item>
+        <p>VueJS App</p>
+      </sui-menu-item>
       <sui-menu-item>
         <router-link to="/">Home</router-link>
       </sui-menu-item>
@@ -26,6 +29,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 40px;
 }
 </style>
