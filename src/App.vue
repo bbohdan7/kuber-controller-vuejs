@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!-- <sui-menu pointing top fixed>
+     <sui-menu pointing top fixed>
       <sui-menu-item>
         <p>VueJS App</p>
       </sui-menu-item>
@@ -10,8 +10,8 @@
       <sui-menu-item>
         <router-link to="/create">Create</router-link>
       </sui-menu-item>
-    </sui-menu> -->
-    <b-navbar toggleable="lg" type="dark" variant="danger">
+    </sui-menu>
+    <!-- <b-navbar toggleable="lg" type="dark" variant="danger">
       <b-navbar-brand href="#">
         <img alt="Vue logo" src="./assets/logo.png" style="width: 60px; padding-left: 1em" />
       </b-navbar-brand>
@@ -28,7 +28,7 @@
           </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
-    </b-navbar>
+    </b-navbar> -->
     <img alt="Vue logo" src="./assets/logo.png" />
     <router-view></router-view>
   </div>
